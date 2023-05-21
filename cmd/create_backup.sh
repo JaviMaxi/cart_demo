@@ -1,2 +1,0 @@
-docker container run -v cart_demo_db:/run/db -v $(pwd)/backups:/backups alpine:latest tar -czpvf "/backups/backup_1_db-$(date +"%Y%m%d%H%M%S").tar.gz" . -C /run/
-docker container run -v cart_demo_media:/run/media -v $(pwd)/backups:/backups alpine:latest tar -czpvf "/backups/backup_1_media-$(date +"%Y%m%d%H%M%S").tar.gz" . -C /run/

@@ -11,7 +11,7 @@
   <pre><code>docker container exec -it cart-demo-backend-prod python manage.py migrate</code></pre>
   <pre><code>docker container exec -it cart-demo-backend-prod python manage.py loaddata cart/fixtures/{001_data_cart_categories.json,002_data_cart_articles.json}</code></pre>
   <pre><code>cd cmd</code></pre>
-  <pre><code>sh load_backup_media.sh backups/backup_media-20230521203944.tar.gz</code></pre>
+  <pre><code>sh load_backup_media.sh backups/backup_media-20230522004922.tar.gz</code></pre>
 </ol>
 <p>PAge: <code>http://127.0.0.1:8080/home</code></p>
 <h2>Admin Access:</h2>
