@@ -1,0 +1,141 @@
+version: "3.7"
+services:
+  volumenes:
+    image: alpine:latest
+    command: ["/bin/sh", "-c", "chown -R 1000:1000 /run"]
+    volumes:
+      - status:/run/status
+      - backend:/run/backend
+      - static:/run/static
+      - media:/run/media
+
+  backend:
+    user: "1000:1000"
+    container_name: cart-demo-backend-${TAG}
+    image: cart-demo-backend:${TAG}
+    depends_on:
+      - volumenes
+      - database
+      - redis
+    build: ./backend
+    volumes:
+      - status:/run/status
+      - backend:/run/backend
+      - static:/run/static
+      - media:/run/media
+      - ./backend/etc/passwd:/etc/passwd:ro
+      - ./backend/etc/group:/etc/group:ro
+    environment:
+      - DEBUG
+      - ALLOWED_HOSTS
+      - DB_ENGINE
+      - DB_HOST
+      - DB_PORT
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+      - STATIC_ROOT
+      - MEDIA_ROOT
+      - REDIS_HOST
+      - REDIS_PORT
+
+  frontend:
+    container_name: cart-demo-backend-frontend-${TAG}
+    image: cart-demo-backend-frontend:${TAG}
+    ports:
+      - 127.0.0.1:8080:80/tcp
+    depends_on:
+      - volumenes
+      - backend
+    build:
+      context: ./frontend
+    volumes:
+      - backend:/run/backend
+      - static:/run/static
+      - media:/run/media
+      - ./frontend/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./frontend/nginx.conf:/etc/nginx/nginx.conf:ro
+
+  database:
+    container_name: cart-demo-backend-database-${TAG}
+    image: postgres:14.1
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  redis:
+    container_name: cart-demo-backend-redis-${TAG}
+    image: redis:latest
+
+  copy_statics:
+    user: "1000:1000"
+    command: ["python", "manage.py", "collectstatic", "--noinput"]
+    image: cart-demo-backend:${TAG}
+    depends_on:
+      - volumenes
+      - database
+      - redis
+    build: ./backend
+    volumes:
+      - static:/run/static
+      - ./backend/etc/passwd:/etc/passwd:ro
+      - ./backend/etc/group:/etc/group:ro
+    environment:
+      - DEBUG
+      - ALLOWED_HOSTS
+      - DB_ENGINE
+      - DB_HOST
+      - DB_PORT
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+      - STATIC_ROOT
+      - MEDIA_ROOT
+      - REDIS_HOST
+      - REDIS_PORT
+
+  apply_migrations:
+    user: "1000:1000"
+    command: ["entry_points/apply_migrations.sh"]
+    image: cart-demo-backend:${TAG}
+    depends_on:
+      - database
+      - volumenes 
+      - redis
+    build: ./backend
+    volumes:
+      - status:/run/status
+      - ./backend/etc/passwd:/etc/passwd:ro
+      - ./backend/etc/group:/etc/group:ro
+    environment:
+      - DEBUG
+      - ALLOWED_HOSTS
+      - DB_ENGINE
+      - DB_HOST
+      - DB_PORT
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+      - STATIC_ROOT
+      - MEDIA_ROOT
+      - REDIS_HOST
+      - REDIS_PORT
+
+volumes:
+  db:
+  static:
+  media:
+  backend:
+  status:
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}

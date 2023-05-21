@@ -1,0 +1,19 @@
+    props: {
+        value: {
+        type: String,
+        required: true,
+        default: new Date().toISOString(),
+        },
+ 
+ :article="article"
+ 
+list_
+ 
+        Filters,
+ 
+ components: {
+        Filtros
+  },
+ 
+import Filtros from '../components/Filtros.vue'
+ 
