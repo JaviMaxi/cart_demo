@@ -1,4 +1,4 @@
-# cart_demo<h1 align="center">Application Setup</h1>
+<h1 align="center">Application Setup</h1>
 
 <h1>Application Setup</h1>
 <h2>Instructions:</h2>
