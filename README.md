@@ -8,11 +8,14 @@
   <li>Start the Docker containers:</li>
   <pre><code>docker compose up</code></pre>
   <li>Execute the following commands:</li>
-  <pre><code>docker container exec -it -u 0 cart-demo-backend-prod python manage.py migrate</code></pre>
-  <pre><code>docker container exec -it -u 0 cart-demo-backend-prod python manage.py loaddata cart/fixtures/{001_data_cart_categories.json,002_data_cart_articles.json}</code></pre>
-</ol
+  <pre><code>docker container exec -it cart-demo-backend-prod python manage.py migrate</code></pre>
+  <pre><code>docker container exec -it cart-demo-backend-prod python manage.py loaddata cart/fixtures/{001_data_cart_categories.json,002_data_cart_articles.json}</code></pre>
+  <pre><code>cd cmd</code></pre>
+  <pre><code>sh load_backup_media.sh backups/backup_media-20230521203944.tar.gz</code></pre>
+</ol>
+<p>PAge: <code>http://127.0.0.1:8080/home</code></p>
 <h2>Admin Access:</h2>
-<pre><code>docker container exec -it -u 0 cart-demo-backend-prod python manage.py migrate</code></pre>
+<pre><code>docker container exec -it cart-demo-backend-prod python manage.py createsuperuser</code></pre>
 <p>Admin panel: <code>http://127.0.0.1:8080/admin</code></p>
 </ul>
 <h2>API Testing:</h2>

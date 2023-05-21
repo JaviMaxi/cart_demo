@@ -7,7 +7,7 @@
     <v-img
       height="220"
       width="280"
-      :src="article.image"
+      :src="article.file_url"
     ></v-img>
     <v-card-text>
     <p><strong>Name:</strong> {{ article.name }}</p>
