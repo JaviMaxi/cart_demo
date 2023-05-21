@@ -7,14 +7,13 @@
   <pre><code>docker compose build</code></pre>
   <li>Start the Docker containers:</li>
   <pre><code>docker compose up</code></pre>
-  <li>Inside the command line, execute the following commands:</li>
-  <pre><code>sh load_backup_db.sh</code></pre>
-  <pre><code>sh load_backup_media.sh</code></pre>
+  <li>Execute the following commands:</li>
+  <pre><code>docker container exec -it -u 0 cart-demo-backend-prod python manage.py migrate</code></pre>
+  <pre><code>docker container exec -it -u 0 cart-demo-backend-prod python manage.py loaddata cart/fixtures/{001_data_cart_categories.json,002_data_cart_articles.json}</code></pre>
 </ol
 <h2>Admin Access:</h2>
-<ul>
-  <li>Username: admin</li>
-  <li>Password: cartdemo2023</li>
+<pre><code>docker container exec -it -u 0 cart-demo-backend-prod python manage.py migrate</code></pre>
+<p>Admin panel: <code>http://127.0.0.1:8080/admin</code></p>
 </ul>
 <h2>API Testing:</h2>
 <p>To test the APIs described in the specifications, you can use the following endpoints:</p>
