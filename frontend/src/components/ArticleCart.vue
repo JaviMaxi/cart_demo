@@ -4,11 +4,11 @@
     height="380"
     width="280"
   >
-    <!-- <v-img
+    <v-img
       height="220"
       width="280"
       :src="articleCart.article.image"
-    ></v-img> -->
+    ></v-img>
     <v-card-text>
       <p><strong>Name:</strong> {{ articleCart.article.name }}</p>
       <p><strong>Model:</strong> {{ articleCart.article.model }}</p>

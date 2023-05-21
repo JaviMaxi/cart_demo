@@ -99,33 +99,6 @@ services:
       - REDIS_HOST
       - REDIS_PORT
 
-  apply_migrations:
-    user: "1000:1000"
-    command: ["entry_points/apply_migrations.sh"]
-    image: cart-demo-backend:${TAG}
-    depends_on:
-      - database
-      - volumenes 
-      - redis
-    build: ./backend
-    volumes:
-      - status:/run/status
-      - ./backend/etc/passwd:/etc/passwd:ro
-      - ./backend/etc/group:/etc/group:ro
-    environment:
-      - DEBUG
-      - ALLOWED_HOSTS
-      - DB_ENGINE
-      - DB_HOST
-      - DB_PORT
-      - DB_NAME
-      - DB_USER
-      - DB_PASSWORD
-      - STATIC_ROOT
-      - MEDIA_ROOT
-      - REDIS_HOST
-      - REDIS_PORT
-
 volumes:
   db:
   static:
