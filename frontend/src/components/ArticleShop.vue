@@ -4,11 +4,11 @@
     height="340"
     width="280"
   >
-    <v-img
+    <!-- <v-img
       height="220"
       width="280"
       :src="article.image"
-    ></v-img>
+    ></v-img> -->
     <v-card-text>
     <p><strong>Name:</strong> {{ article.name }}</p>
     <p><strong>Model:</strong> {{ article.model }}</p>
